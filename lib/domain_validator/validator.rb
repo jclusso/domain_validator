@@ -3,7 +3,7 @@ require "active_model/validator"
 
 module DomainValidator
   class Validator < ActiveModel::EachValidator
-    
+
     RE_DOMAIN = %r(^(?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|-){0,61}[0-9A-Za-z])?)+$)
 
     def validate_each(record, attr_name, value)
@@ -14,12 +14,12 @@ module DomainValidator
 
     def validate_domain_format(record, attr_name, value)
       valid_domain = is_valid_domain?(value)
-      record.errors.add(attr_name, options[:message] || "is invalid") unless valid_domain
+      record.errors.add(attr_name, (options[:message] || I18n.t(:invalid, scope: "domain_validator.validations.domain", attribute: attr_name)) unless valid_domain
     end
 
     def validate_domain_dns(record, attr_name, value)
       valid_domain = has_dns_record?(value)
-      record.errors.add(attr_name, verify_dns_message || "does not have a DNS record") unless valid_domain
+      record.errors.add(attr_name, verify_dns_message || I18n.t(:invalid_dns, scope: "domain_validator.validations.domain", attribute: attr_name)) unless valid_domain
     end
 
     def is_valid_domain?(domain)

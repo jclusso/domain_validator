@@ -1,0 +1,6 @@
+en:
+  domain_validator:
+    validations:
+      domain:
+        invalid: "%{attribute} is invalid."
+        invalid_dns: "%{attribute} does not have a DNS record"
